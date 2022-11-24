@@ -2,14 +2,29 @@ const { Sequelize } = require('sequelize');
 const environment = require('../configuration/environment');
 const setupModels = require('../database/models');
 
-const DB_USER = encodeURIComponent(environment.dbUser);
-const DB_PASSWORD = encodeURIComponent(environment.dbPassword);
-const URI = `postgres://${DB_USER}:${DB_PASSWORD}@${environment.dbHost}:${environment.dbPort}/${environment.dbName}`;
+let URI;
+let options;
 
-const sequelize = new Sequelize(URI, {
-    dialect: 'postgres',
-    logging: true,
-});
+if (environment.nodeEnv === 'production') {
+    URI = environment.uriProduction;
+    options = {
+        dialect: 'postgres',
+        logging: true,
+        ssl: {
+            rejectUnauthorized: false,
+        },
+    };
+} else {
+    const DB_USER = encodeURIComponent(environment.dbUser);
+    const DB_PASSWORD = encodeURIComponent(environment.dbPassword);
+    URI = `postgres://${DB_USER}:${DB_PASSWORD}@${environment.dbHost}:${environment.dbPort}/${environment.dbName}`;
+    options = {
+        dialect: 'postgres',
+        logging: true,
+    };
+}
+
+const sequelize = new Sequelize(URI, options);
 
 setupModels(sequelize);
 
