@@ -29,5 +29,5 @@ if (environment.nodeEnv === 'production') {
 const sequelize = new Sequelize(URI, options);
 
 setupModels(sequelize);
-
+sequelize.sync();
 module.exports = sequelize;
