@@ -10,8 +10,10 @@ if (environment.nodeEnv === 'production') {
     options = {
         dialect: 'postgres',
         logging: true,
-        ssl: {
-            rejectUnauthorized: false,
+        dialectOptions: {
+            ssl: {
+                rejectUnauthorized: false,
+            },
         },
     };
 } else {
