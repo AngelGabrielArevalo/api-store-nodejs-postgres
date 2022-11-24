@@ -5,7 +5,7 @@ class CategoryService {
     constructor() {}
 
     async findAll(offset, limit) {
-        const options = { include: ['category'] };
+        const options = { include: ['products'] };
         if (offset && limit) {
             options.offset = offset;
             options.limit = limit;

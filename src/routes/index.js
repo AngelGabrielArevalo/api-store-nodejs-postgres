@@ -5,7 +5,7 @@ const orderProductRouter = require('./order-product.router');
 const orderRouter = require('./order.router');
 const productRouter = require('./product.router');
 const userRouter = require('./user.router');
-
+const cargarBase = require('../database/seeders/seed');
 
 const router = Router();
 
@@ -15,5 +15,6 @@ router.use('/categories', categoryRouter);
 router.use('/products', productRouter);
 router.use('/orders', orderRouter);
 router.use('/orderProducts', orderProductRouter);
+router.get('/seed', cargarBase);
 
 module.exports = router;
