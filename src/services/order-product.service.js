@@ -1,4 +1,6 @@
-const { models } = require('../lib/sequelize');
+const { ORDER_PRODUCT_TABLE } = require('../database/models/order-product.model');
+const { sequelize, setValSeq } = require('../lib/sequelize');
+const { models } = sequelize;
 
 class OrderProductService {
     constructor() {}
@@ -15,6 +17,7 @@ class OrderProductService {
     }
 
     async create(orderProduct) {
+        await setValSeq(ORDER_PRODUCT_TABLE);
         const newOrderProduct = await models.OrderProduct.create(orderProduct);
         await newOrderProduct.save();
 

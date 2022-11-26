@@ -1,6 +1,7 @@
 const Joi = require('joi');
 
 const createUserSchema = Joi.object({
+  id: Joi.number().integer().optional(),
   email: Joi.string().email().required(),
   password: Joi.string().min(3).required(),
   role: Joi.string().min(3).optional()

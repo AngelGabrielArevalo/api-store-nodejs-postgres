@@ -1,7 +1,9 @@
 /* eslint-disable no-undef */
 const boom = require('@hapi/boom');
 const { Op } = require('sequelize');
-const { models } = require('../lib/sequelize');
+const { PRODUCCT_TABLE } = require('../database/models/product.model');
+const { sequelize, setValSeq } = require('../lib/sequelize');
+const { models } = sequelize;
 
 class ProductService {
     constructor() {}
@@ -32,6 +34,7 @@ class ProductService {
     }
 
     async create(product) {
+        await setValSeq(PRODUCCT_TABLE);
         const newProduct = await models.Product.create(product);
         await newProduct.save();
 

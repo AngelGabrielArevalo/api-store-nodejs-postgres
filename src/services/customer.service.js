@@ -1,5 +1,7 @@
 const boom = require('@hapi/boom');
-const { models } = require('../lib/sequelize');
+const { CUSTOMER_TABLE } = require('../database/models/customer.model');
+const { sequelize, setValSeq } = require('../lib/sequelize');
+const { models } = sequelize;
 
 class CustomerService {
     constructor() {}
@@ -24,7 +26,18 @@ class CustomerService {
         return customer;
     }
 
+    async findByUser(userId) {
+        console.log('id de user  ',userId);
+        const customer = await models.Customer.findOne({where: {userId}});
+        if (!customer) {
+            throw boom.notFound(`No existe un customer con un userId  ${userId}`);
+        }
+
+        return customer;
+    }
+
     async create(customer) {
+        await setValSeq(CUSTOMER_TABLE);
         const newCustomer = await models.Customer.create(customer);
         await newCustomer.save();
 

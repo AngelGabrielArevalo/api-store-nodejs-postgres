@@ -1,5 +1,7 @@
 const boom = require('@hapi/boom');
-const { models } = require('../lib/sequelize');
+const { ORDER_TABLE } = require('../database/models/order.model');
+const { sequelize, setValSeq } = require('../lib/sequelize');
+const { models } = sequelize;
 
 class OrderService {
     constructor() {}
@@ -32,7 +34,25 @@ class OrderService {
         return order;
     }
 
+    async findByUser(userId) {
+        const orders = await models.Order.findAll({
+            where: {
+                '$customer.user.id$': userId
+            },
+            include: [
+                {
+                    association: 'customer',
+                    include: ['user']
+                },
+                'products'
+            ]
+        });
+
+        return orders;
+    }
+
     async create(order) {
+        await setValSeq(ORDER_TABLE);
         const newOrder = await models.Order.create(order);
         await newOrder.save();
 

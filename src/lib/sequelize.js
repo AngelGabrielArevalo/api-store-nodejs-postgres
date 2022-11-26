@@ -30,4 +30,8 @@ const sequelize = new Sequelize(URI, options);
 
 setupModels(sequelize);
 
-module.exports = sequelize;
+async function setValSeq(table) {
+    await sequelize.query(`SELECT setval('"${table}_id_seq"', (SELECT MAX("id") FROM ${table}))`);
+}
+
+module.exports = {sequelize, setValSeq};

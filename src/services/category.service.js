@@ -1,5 +1,7 @@
 const boom = require('@hapi/boom');
-const { models } = require('../lib/sequelize');
+const { CATEGORY_TABLE } = require('../database/models/category.model');
+const { sequelize, setValSeq } = require('../lib/sequelize');
+const { models } = sequelize;
 
 class CategoryService {
     constructor() {}
@@ -27,6 +29,7 @@ class CategoryService {
     }
 
     async create(category) {
+        await setValSeq(CATEGORY_TABLE);
         const newCategory = await models.Category.create(category);
         await newCategory.save();
 

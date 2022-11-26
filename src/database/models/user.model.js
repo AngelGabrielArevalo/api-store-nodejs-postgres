@@ -3,9 +3,9 @@ const {Model, DataTypes, Sequelize} = require('sequelize');
 const USER_TABLE = 'users';
 
 class User extends Model {
-    static associate () {}
+    static associate() {}
 
-    static config (sequelize) {
+    static config(sequelize) {
         return {
             sequelize,
             tableName: USER_TABLE,
@@ -16,10 +16,10 @@ class User extends Model {
             },
             scopes: {
                 withPassword: {
-                    attributes: { },
-                }
-            }
-        }
+                    attributes: {},
+                },
+            },
+        };
     }
 }
 

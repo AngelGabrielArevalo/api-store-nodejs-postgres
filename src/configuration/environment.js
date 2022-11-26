@@ -10,6 +10,8 @@ const environment = {
     dbPort: process.env.DB_PORT,
     nodeEnv: process.env.NODE_ENV || 'dev',
     uriProduction: process.env.DATABASE_URL,
+    apiKey: process.env.API_KEY,
+    secretJwt: process.env.SECRET_JWT
 }
 
 module.exports = environment;

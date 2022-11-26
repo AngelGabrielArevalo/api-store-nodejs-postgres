@@ -1,4 +1,4 @@
-const sequelize = require('../../lib/sequelize');
+const {sequelize} = require('../../lib/sequelize');
 const fs = require('fs');
 const boom = require('@hapi/boom');
 

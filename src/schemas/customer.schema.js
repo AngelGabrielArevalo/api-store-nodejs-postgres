@@ -1,6 +1,7 @@
 const Joi = require('joi');
 
 const createCustomerSchema = Joi.object({
+  id: Joi.number().integer().optional(),
   name: Joi.string().required(),
   lastName: Joi.string().required(),
   phone: Joi.string().length(10).optional(),

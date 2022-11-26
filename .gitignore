@@ -1,11 +1,12 @@
 
+pg_data/*
 # Created by https://www.toptal.com/developers/gitignore/api/node,windows,linux,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,windows,linux,macos
 
 ### Linux ###
 *~
 postgres_data
-pg_data
+
 
 # temporary files which can be created if a process still has a handle open of a deleted file
 .fuse_hidden*
@@ -92,6 +93,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+pg_data/
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/

@@ -1,7 +1,9 @@
 const { Router } = require('express');
+const passport = require('passport');
 const { queryParamsSchema } = require('../common/schemas/queryParams.schema');
 const { validateIdSchema } = require('../common/schemas/validateId.schema');
 const CategoryController = require('../controllers/category.controller');
+const checkRole = require('../middlewares/checkRoleHandler.middleware');
 const validatorHandler = require('../middlewares/validatorHandler.middleware');
 const {
     createCategorySchema,
@@ -25,6 +27,8 @@ categoryRouter.get(
 
 categoryRouter.post(
     '/',
+    passport.authenticate('jwt', {session: false}),
+    checkRole(['ADMIN']),
     validatorHandler(createCategorySchema, 'body'),
     (req, res, next) => categoryController.create(req, res, next)
 );

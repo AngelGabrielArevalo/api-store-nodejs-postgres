@@ -1,12 +1,17 @@
 const boom = require('@hapi/boom');
-const { models } = require('../lib/sequelize');
+const { sequelize, setValSeq } = require('../lib/sequelize');
+const { models } = sequelize;
+const bcrypt = require('bcrypt');
+const { USER_TABLE } = require('../database/models/user.model');
+//const {setValSeq} = require('../lib/sequelize');
+//const { USER_TABLE } = require('../database/models/user.model');
 
 class UserService {
     constructor() {}
 
     async findAll(offset, limit) {
         const options = {};
-        if(offset && limit) {
+        if (offset && limit) {
             options.offset = offset;
             options.limit = limit;
         }
@@ -24,11 +29,32 @@ class UserService {
         return user;
     }
 
+    async findByEmail(email) {
+        const user = await models.User.scope('withPassword').findOne({
+            where: {
+                email,
+            },
+        });
+
+        if (!user) {
+            throw boom.unauthorized(`Error de username/contraseña`);
+        }
+
+        return user;
+    }
+
     async create(user) {
-        console.log(user)
+        const hashPassword = await bcrypt.hash(user.password, 10);
+        user = {
+            ...user,
+            password: hashPassword,
+        };
+
+        await setValSeq(USER_TABLE);
         const newUser = await models.User.create(user);
         await newUser.save();
 
+        delete newUser.dataValues.password;
         return newUser;
     }
 
